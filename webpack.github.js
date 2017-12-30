@@ -8,8 +8,8 @@ module.exports = {
     entry: './src/index.js',
     context: path.resolve(__dirname, './'),
     output: {
-        path: path.resolve(__dirname, './build'),
-        filename: 'js/index-hash.js'
+        path: path.resolve(__dirname, './docs'),
+        filename: 'js/index-[hash:6].js'
     },
     resolve: {
         extensions: ['.ts', '.js']
@@ -49,7 +49,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: './img/[name].[ext]',
+                    name: './img/[name]-[hash:6].[ext]',
                     publicPath: this.context
                 }
             },
@@ -58,7 +58,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: './video/[name].[ext]',
+                    name: './video/[name]-[hash:6].[ext]',
                     publicPath: this.context
                 }
             },
@@ -67,7 +67,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: './font/[name].[ext]',
+                    name: './font/[name]-[hash:6].[ext]',
                     publicPath: this.context
                 }
             },
@@ -90,6 +90,11 @@ module.exports = {
         }),
         new ExtractTextPlugin("css/styles.css"),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     ]
 };

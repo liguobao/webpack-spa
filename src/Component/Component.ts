@@ -2,6 +2,11 @@ import './reset.css';
 
 class Component{
     protected html = '';
+
+    constructor(Html) {
+        this.html = Html;
+    }
+
     //如果不把html转成Dom而是直接对innerHTML做累加，就会出现指针指向错误
     static $html(str):NodeList{
         let div = document.createElement('div');

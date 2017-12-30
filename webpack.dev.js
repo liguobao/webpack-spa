@@ -4,12 +4,15 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack = require('webpack');
 
 
+let cssExtractor = new ExtractTextPlugin('stylesheets/[name].css');
+let lessExtractor = new ExtractTextPlugin('stylesheets/[name].less');
+
 module.exports = {
     entry: './src/index.js',
     context: path.resolve(__dirname, './'),
     output: {
-        path: path.resolve(__dirname, './build'),
-        filename: 'js/index-hash.js'
+        path: path.resolve(__dirname, './dist'),
+        filename: 'js/index-[hash:6].js'
     },
     resolve: {
         extensions: ['.ts', '.js']
@@ -49,7 +52,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: './img/name.[ext]',
+                    name: './img/[name]-[hash:6].[ext]',
                     publicPath: this.context
                 }
             },
@@ -58,7 +61,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: './video/name.[ext]',
+                    name: './video/[name]-[hash:6].[ext]',
                     publicPath: this.context
                 }
             },
@@ -67,7 +70,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: './font/name.[ext]',
+                    name: './font/[name]-[hash:6].[ext]',
                     publicPath: this.context
                 }
             },
@@ -77,7 +80,10 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader!postcss-loader'
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader!postcss-loader"
+                })
             }
         ],
     },
@@ -85,8 +91,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './public/test.html'
         }),
-        new ExtractTextPlugin("styles.css"),
+        new ExtractTextPlugin("css/styles-[hash:6].css"),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     ]
 };

@@ -8,16 +8,18 @@ class Canvas extends Component{
     canvas = false;
     context = false;
 
-    constructor(width , height){
-        super();
-        this.html = Html;
+    constructor(){
+        super(Html);
         this.render();
         this.div = document.querySelector('#canvas');
         this.canvas = this.div.children[0];
-        this.canvas.width = width;
-        this.canvas.height = height;
         //获取context
+        this.canvas.width = this.div.clientWidth;
+        this.canvas.height = this.div.clientHeight;
         this.context = this.canvas.getContext('2d');
+    }
+    getCanvasRect(){
+        return this.canvas.getBoundingClientRect();
     }
     renderLine(line) {
         this.context.moveTo(line.start.x , line.start.y);
@@ -27,6 +29,7 @@ class Canvas extends Component{
         this.context.stroke();
     }
     clear(){
+        // this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.canvas.width = this.canvas.width;
     }
 }

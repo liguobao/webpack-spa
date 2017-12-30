@@ -1,0 +1,17 @@
+
+.AudioControl{
+
+}
+.AudioControl button{
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+    color: red;
+}
+.AudioControl button:hover{
+    color: blue;
+}
+.AudioControl button i {
+    font-size: 40px;
+}
+
